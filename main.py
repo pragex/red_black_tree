@@ -14,21 +14,25 @@ def hash_str(s):
 
 
 class Node(object):
+
     """Red-black tree node"""
-    def __init__(self, key, key_hash, value):
+
+    def __init__(self, key, key_hash):
         self.key_hash = key_hash
         self.key = key
         self.value = value
-        self.colored = False
+        self.red = False
         self.right = None
         self.left = None
 
 
 class RedBlackTree(object):
+
     """Red-black tree"""
+
     def __init__(self, hashing=None, compare=None):
-        self._null = Node(None, None, None)
-        self._root = None
+        self._znode = Node(None, None)
+        self._head = self._znode
         self._size = 0
         if hashing:
             self._hashing = hashing
@@ -44,7 +48,40 @@ class RedBlackTree(object):
         return self._size
 
     def put(self, key, value):
-        pass
+        key_hash = self._hashing(key)
+
+        node = self._head
+        p_node = g_node = gg_node = node
+        while node is not self._znode:
+            gg_node = g_node
+            g_node = p_node
+            p_node = node
+
+            if key_hash < node.key_hash or (key_hash == node.key_hash and
+                                            self._compare(key, node.key) < 0):
+                node = node.left
+            else:
+                node = node.right
+
+            if node.left.red and node.right.red:
+                self._split(key, key_hash)
+
+        mynode = Node(key_hash, key, value)
+        mynode.value = value
+        mynode.left = self._znode
+        mynode.right = self._znode
+        self._split(key, key_hash)
+
+        self._size += 1
+        return True
+
+    def _rotate(self, key, key_hash, head):
+        if key_hash is None:
+            key_hash = self._hashing(key)
+
+    def _split(self, key, key_hash):
+        if key_hash is None:
+            key_hash = self._hashing(key)
 
     def pop(self, key):
         return "value"
@@ -58,6 +95,11 @@ class RedBlackTree(object):
     def update(self, node, value):
         return "old value"
 
+    # Clean memory allocation of keys and values
+    def clean(callback):
+        pass
 
 if __name__ == '__main__':
     t = RedBlackTree(hash_str)
+    t.put('salut', 'valeur de salut')
+    t.put('hello', 'valeur de hello')
