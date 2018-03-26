@@ -91,6 +91,10 @@ class RedBlackTree(object):
     def clean(callback):
         pass
 
+    # Clean memory allocation of keys and values
+    def clean2(cbkey, cbvalue):
+        pass    
+
     def _rotate(self, khash, key, node):
         pass
 
