@@ -17,8 +17,8 @@ class Node(object):
 
     """Red-black tree node"""
 
-    def __init__(self, key, key_hash):
-        self.key_hash = key_hash
+    def __init__(self, khash, key):
+        self.khash = khash
         self.key = key
         self.value = value
         self.red = False
@@ -28,7 +28,7 @@ class Node(object):
 
 class RedBlackTree(object):
 
-    """Red-black tree"""
+    """Red-black tree object"""
 
     def __init__(self, hashing=None, compare=None):
         self._znode = Node(None, None)
@@ -48,40 +48,32 @@ class RedBlackTree(object):
         return self._size
 
     def put(self, key, value):
-        key_hash = self._hashing(key)
+        khash = self._hashing(key)
 
         node = self._head
-        p_node = g_node = gg_node = node
+        pnode = gpnode = ggpnode = node
         while node is not self._znode:
-            gg_node = g_node
-            g_node = p_node
-            p_node = node
+            ggpnode = gp_node
+            gpnode = p_node
+            pnode = node
 
-            if key_hash < node.key_hash or (key_hash == node.key_hash and
-                                            self._compare(key, node.key) < 0):
+            if khash < node.khash or (khash == node.khash and
+                                      self._compare(key, node.key) < 0):
                 node = node.left
             else:
                 node = node.right
 
             if node.left.red and node.right.red:
-                self._split(key, key_hash)
+                self._split(khash, key, ggpnode, gpnode, pnode, node)
 
-        mynode = Node(key_hash, key, value)
+        mynode = Node(khash, key)
         mynode.value = value
         mynode.left = self._znode
         mynode.right = self._znode
-        self._split(key, key_hash)
+        self._split(khash, key, ggpnode, gpnode, pnode, mynode)
 
         self._size += 1
         return True
-
-    def _rotate(self, key, key_hash, head):
-        if key_hash is None:
-            key_hash = self._hashing(key)
-
-    def _split(self, key, key_hash):
-        if key_hash is None:
-            key_hash = self._hashing(key)
 
     def pop(self, key):
         return "value"
@@ -98,6 +90,15 @@ class RedBlackTree(object):
     # Clean memory allocation of keys and values
     def clean(callback):
         pass
+
+    def _rotate(self, khash, key, node):
+        pass
+
+    def _split(self, khash, key, ggpnode, gpnode, pnode, node):
+        pass
+
+
+    
 
 if __name__ == '__main__':
     t = RedBlackTree(hash_str)
