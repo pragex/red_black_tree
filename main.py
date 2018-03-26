@@ -20,7 +20,7 @@ class Node(object):
     def __init__(self, khash, key):
         self.khash = khash
         self.key = key
-        self.value = value
+        self.value = None
         self.red = False
         self.right = None
         self.left = None
@@ -53,8 +53,8 @@ class RedBlackTree(object):
         node = self._head
         pnode = gpnode = ggpnode = node
         while node is not self._znode:
-            ggpnode = gp_node
-            gpnode = p_node
+            ggpnode = gpnode
+            gpnode = pnode
             pnode = node
 
             if khash < node.khash or (khash == node.khash and
@@ -97,8 +97,6 @@ class RedBlackTree(object):
     def _split(self, khash, key, ggpnode, gpnode, pnode, node):
         pass
 
-
-    
 
 if __name__ == '__main__':
     t = RedBlackTree(hash_str)
