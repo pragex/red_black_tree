@@ -5,6 +5,7 @@ __pycache__/
 
 # C extensions
 *.so
+*.o
 
 # Distribution / packaging
 .Python
@@ -99,3 +100,6 @@ ENV/
 
 # mypy
 .mypy_cache/
+
+# emacs backup
+*~
