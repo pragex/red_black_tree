@@ -6,6 +6,11 @@
 #ifndef HTREE_H
 #define HTREE_H
 
+#ifdef __cplusplus
+extern "C"
+{
+#endif
+
 #include <stddef.h>
 
 #ifndef CUSTOM_THASH_TYPE
@@ -61,4 +66,9 @@ htree_search2(const htree * tree, const thash hash);
 extern size_t
 htree_length(const htree * tree, const thash hash);
 
+
+#ifdef __cplusplus
+}
+#endif
+  
 #endif //HTREE_H
